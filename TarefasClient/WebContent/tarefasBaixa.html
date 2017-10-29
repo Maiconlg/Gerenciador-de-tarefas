@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="pt-br">
+<script src="js/angular/angular.min.js"></script>
+<script src="js/controllers/tarefas.js"></script>
+<script type="text/javascript">
+	
+		function trocar(obj){
+			if(obj.style.display == "none"){
+				obj.style.display = "block";
+			}else{
+				obj.style.display = "none";
+			}
+		}
+	</script>
+<link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap/css/bootstrap-theme.min.css">
+
+<title>Gerenciador de Tarefas</title>
+</head>
+
+<body class="container">
+	<div ng-app="myApp" ng-controller="tarefasCtrl">
+		<p ng-show="erro" class="alert alert-danger">{{erro}}</p>
+		<p ng-show="sucesso" class="alert alert-success">{{sucesso}}</p>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand">Gerenciador de Tarefas</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="index.html">Cadastro de Tarefas</a></li>
+					<li><a href="listaTarefas.html">Todas Tarefas</a></li>
+					<li><a href="tarefasBaixa.html">Tarefas Priorida de Baixa</a></li>
+					<li><a href="tarefasMedia.html">Tarefas Priorida de Média</a></li>
+					<li><a href="tarefasAlta.html">Tarefas Priorida de Alta</a></li>
+					<li><a href="tarefasUrgente.html">Tarefas Priorida de Urgente</a></li>
+					<li><a href="tarefasAtrasada.html">Tarefas Atrasada</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="row">
+			<div id="formulario" style="display: none">
+			<div style="background-color: black">
+					<font align="center" size="5" color="white">Atualizar Tarefa
+						</font>
+				</div>
+				<br>
+				<form ng-submit="atualizaTarefa()">
+					<div class="form-group" style="display: none">
+						<label for="descricao">ID:</label> <input class="form-control"
+							ng-model="id" name="id" readonly="readonly" />
+					</div>
+					<div class="form-group">
+						<label for="descricao">Descrição:</label>
+						<textarea class="form-control" ng-model="descricao"
+							name="descricao" required="true"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="deadline">Prazo:</label> <input type="date"
+							class="form-control" ng-model="deadline" name="deadline"
+							required="true" />
+					</div>
+					<div class="form-group">
+						<label for="severidade">Prioridade:</label> <select
+							class="form-control" ng-model="severidade" name="severidade"
+							required="true">
+							<option value="Baixa">Baixa</option>
+							<option value="Média">Média</option>
+							<option value="Alta">Alta</option>
+							<option value="Urgente">Urgente</option>
+						</select>
+					</div>
+					<input class="btn btn-primary" href="javascript:void(0);"
+						onclick="return trocar(formulario);" type="submit"
+						value="Atualizar Tarefa" /> <input class="btn btn-primary"
+						href="javascript:void(0);" onclick="return trocar(formulario);"
+						value="Cancelar" />
+				</form>
+			</div>
+			<br />
+			<br />
+		</div>
+
+				<div style="background-color: lightblue">
+					<h3 align="center">Prioridade Baixa</h3>
+				</div>
+				<table class="table table-hover">
+					<tr>
+						<th>Descrição</th>
+						<th>Prazo</th>
+						<th>Ações</th>
+					</tr>
+					<tr ng-repeat="t in tarefasBaixa">
+						<td>{{ t.descricao }}</td>
+						<td>{{ t.deadline }}</td>
+						<td>
+							<button href="javascript:void(0);"
+								onclick="return trocar(formulario);"
+								ng-click="carregaTarefa(t.id,t.descricao,t.deadline,t.severidade)"
+								class="btn btn-link glyphicon glyphicon-edit"></button>
+							<button
+								ng-click="finalizaTarefa(t.id,t.descricao,t.deadline,t.severidade)"
+								class="btn btn-link glyphicon glyphicon-ok"></button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+
+	</div>
+</body>
+
+</html>
